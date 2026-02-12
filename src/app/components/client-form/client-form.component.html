@@ -1,0 +1,99 @@
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white shadow sm:rounded-lg overflow-hidden">
+        <div class="px-4 py-5 sm:px-6 bg-slate-50 border-b border-gray-200">
+            <h3 class="text-lg leading-6 font-medium text-slate-900">
+                {{ isEditMode ? 'Edit' : 'Add' }} Client Configuration
+            </h3>
+        </div>
+
+        <div class="px-4 py-5 sm:p-6">
+            <form [formGroup]="configForm" (ngSubmit)="onSubmit()" class="space-y-6">
+                <div>
+                    <label for="clientId" class="block text-sm font-medium text-slate-700">Client ID</label>
+                    <div class="mt-1">
+                        <input type="text" id="clientId" formControlName="clientId" [class.bg-gray-100]="isEditMode"
+                            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                        <p *ngIf="configForm.get('clientId')?.invalid && configForm.get('clientId')?.touched"
+                            class="mt-1 text-sm text-red-600">
+                            Client ID is required.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="clientName" class="block text-sm font-medium text-slate-700">Client Name</label>
+                    <div class="mt-1">
+                        <input type="text" id="clientName" formControlName="clientName"
+                            class="shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                        <p *ngIf="configForm.get('clientName')?.invalid && configForm.get('clientName')?.touched"
+                            class="mt-1 text-sm text-red-600">
+                            Client Name is required.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-200 pt-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h4 class="text-lg font-medium text-slate-900">Rate Limit Rules</h4>
+                        <button type="button" (click)="addRule()"
+                            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-full shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            + Add Rule
+                        </button>
+                    </div>
+
+                    <div formArrayName="rules" class="space-y-4">
+                        <div *ngFor="let rule of rules.controls; let i=index" [formGroupName]="i"
+                            class="relative bg-slate-50 rounded-lg p-4 border border-slate-200 shadow-sm transition-all hover:shadow-md rule-card">
+
+                            <button type="button" (click)="removeRule(i)"
+                                class="absolute top-2 right-2 text-slate-400 hover:text-red-500 focus:outline-none">
+                                <span class="sr-only">Remove rule</span>
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </button>
+
+                            <div class="grid grid-cols-1 gap-y-4 gap-x-4 sm:grid-cols-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500">Limit (Requests)</label>
+                                    <input type="number" formControlName="limit"
+                                        class="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500">Duration</label>
+                                    <input type="number" formControlName="duration"
+                                        class="mt-1 shadow-sm focus:ring-blue-500 focus:border-blue-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-500">Unit</label>
+                                    <select formControlName="unit"
+                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md shadow-sm bg-white">
+                                        <option *ngFor="let unit of chronoUnits" [value]="unit">{{ unit }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="rules.controls.length === 0" class="text-center py-4 text-sm text-gray-500 italic">
+                            No rules defined. Add a rule to enforce rate limits.
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6 border-t border-gray-200">
+            <a routerLink="/clients"
+                class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 mr-3">
+                Cancel
+            </a>
+            <button type="submit" (click)="onSubmit()" [disabled]="configForm.invalid"
+                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                Save Configuration
+            </button>
+        </div>
+    </div>
+</div>

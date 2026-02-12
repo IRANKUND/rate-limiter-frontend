@@ -1,0 +1,41 @@
+<div class="min-h-screen bg-slate-50 font-sans text-slate-900">
+  <nav class="bg-slate-900 shadow-lg border-b border-slate-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+        <div class="flex">
+          <div class="flex-shrink-0 flex items-center">
+            <a routerLink="/" class="text-xl font-bold text-blue-400 tracking-wider">
+              RateLimiter<span class="text-white">Admin</span>
+            </a>
+          </div>
+          <div class="hidden md:ml-6 md:flex md:space-x-8">
+            <a routerLink="/dashboard" routerLinkActive="border-blue-500 text-white"
+              [routerLinkActiveOptions]="{exact: true}"
+              class="border-transparent text-slate-300 hover:border-slate-300 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
+              Dashboard
+            </a>
+            <a routerLink="/clients" routerLinkActive="border-blue-500 text-white"
+              class="border-transparent text-slate-300 hover:border-slate-300 hover:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition duration-150 ease-in-out">
+              Clients
+            </a>
+          </div>
+        </div>
+        <!-- Mobile menu button placeholder -->
+        <div class="-mr-2 flex items-center md:hidden">
+          <button type="button"
+            class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 focus:outline-none focus:bg-slate-700 focus:text-white transition duration-150 ease-in-out">
+            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="py-10">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>
